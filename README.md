@@ -44,7 +44,7 @@ require "newsapi"
 News.key = "[your API key here]"
 news = News.top_headlines(category: "politics", country: "us")
 if news
-    puts news.articles[2]
+    puts news.articles[2].title
 end
 ```
 View the documentation for in-depth explanations.
