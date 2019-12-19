@@ -1,6 +1,6 @@
 # newsapi.cr
 
-NewsAPI in Crystal. https://newsapi.org/
+NewsAPI in Crystal. If you need help, don't hesitate to join the unofficial Crystal Discord server https://discord.gg/YS7YvQy
 
 ## Installation
 
