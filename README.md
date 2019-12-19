@@ -1,6 +1,6 @@
-# newsapi-crystal
+# newsapi.cr
 
-NewsAPI in Crystal
+NewsAPI in Crystal. https://newsapi.org/
 
 ## Installation
 
@@ -9,7 +9,7 @@ NewsAPI in Crystal
    ```yaml
    dependencies:
      newsapi:
-       github: acoolstraw/newsapi-crystal
+       github: acoolstraw/newsapi.cr
    ```
 
 2. Run `shards install`
