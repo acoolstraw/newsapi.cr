@@ -1,0 +1,9 @@
+name: newsapi
+version: 0.1.0
+
+authors:
+  - straw <acoolstraw@protonmail.com>
+
+crystal: 0.30.1
+
+license: MIT
