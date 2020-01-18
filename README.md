@@ -23,43 +23,83 @@ Once you get one, you need to require the shard in your .cr file (after installi
 ```cr
 require "newsapi"
 ```
-Then, you need to type this and enter your API key
+Then, you need to initialize a News class
 ```cr
-News.key = "your API key here"
+news = News.k
 ```
 And you're done! Now you can do whatever is possible with NewsAPI!
 ### #get_top_headlines
 ```cr
 # Looks for top headlines containing "bitcoin" in the US
-News.get_top_headlines(q: "bitcoin", country: "us")
+headlines = News.get_top_headlines(q: "bitcoin", country: "us")
 # Looks for top headlines from BBC and New Scientist. Page 2 of the results
-News.get_top_headlines(sources: "bbc-news, new-scientist", page: 2)
+headlines = News.get_top_headlines(sources: "bbc-news, new-scientist", page: 2)
 # Gets top headlines in the category business, amount of results (in request) is 100.
-News.get_top_headlines(category: "business", page_size: 100)
+headlines = News.get_top_headlines(category: "business", page_size: 100)
 ```
 You cannot mix `sources` with `country` or `category`. All parameters are presented in the above example. Additional information about this method is available at <https://newsapi.org/docs/endpoints/top-headlines>.
 
 ### #get_everything
 ```cr
 # Gets everything, must contain "colorado" in title and everywhere else
-News.get_everything(q: "colorado", q_in_title: "colorado")
+everything = News.get_everything(q: "colorado", q_in_title: "colorado")
 # Gets everything from TechCrunch and Engadget, sorts by relevancy
-News.get_everything(sources: "techcrunch, engadget", sort_by: "relevancy")
+everything = News.get_everything(sources: "techcrunch, engadget", sort_by: "relevancy")
 # Gets everything from cnn.com from 2020-01-05 to 2020-01-10 (date must be in ISO 8601 format)
-News.get_everything(domains: "cnn.com", from: "2020-01-05", to: "2020-01-10")
+everything = News.get_everything(domains: "cnn.com", from: "2020-01-05", to: "2020-01-10")
 # Gets everything not from bloomberg.com in English with page size 40 and on page 2
-News.get_everything(exclude_domains: "bloomberg.com", language: "en", pageSize: 40, page: 2)
+everything = News.get_everything(exclude_domains: "bloomberg.com", language: "en", pageSize: 40, page: 2)
 ```
 Same things apply to this method as do to #get_top_headlines. Additional information about this method is available at <https://newsapi.org/docs/endpoints/everything>
 
 ### #get_sources
 ```cr
 # Gets English news sources in the business category
-News.get_sources(category: "business", language: "en")
+sauces = News.get_sources(category: "business", language: "en")
 # Gets all sources from Russia
-News.get_sources(country: "ru")
+sauces = News.get_sources(country: "ru")
 ```
 All parameters are presented in the above example. Additional information about this method is available at <https://newsapi.org/docs/endpoints/sources>
+
+### Interacting with the output
+Since Crystal is a type-safe language, you'll need to do this before interacting with the output
+For #get_top_headlines and #get_everything:
+```cr
+if articles = variable_name.try(&.articles) # variable_name being whatever variable you assigned the method to
+    # your code ...
+end
+```
+For #get_sources
+```cr
+if sources = variable_name.try(&.sources)
+    # your code ...
+end
+```
+Now, you can just grab values from the JSON output like this
+For #get_top_headlines and #get_everything
+```cr
+    puts status # gets status, can be either ok or error, the latter would ideally print an error message in the console
+    puts totalResults # gets number of total results
+    puts articles[1].source # gets source of second article in results
+    puts articles[5].author # gets name of author of sixth article
+    puts articles[0].title # gets title of first article
+    puts articles[4].description # gets description of fifthth article
+    puts articles[3].url # gets url of fourth article
+    puts articles[5].urlToImage # gets URL to thumbnail/image of sixth article
+    puts articles[0].publishedAt # gets date of publication of first article
+    puts articles[3].content # gets content (limited for developer plan users)
+```
+For #get_sources
+```cr
+    puts status # gets status
+    puts sources[1].id # gets id of second source
+    puts sources[3].name # gets name of fourth source
+    puts sources[2].description # gets description of third source
+    puts sources[5].url # gets url of sixth source
+    puts sources[0].category # gets category of first source
+    puts sources[4].language # gets language of fifth source
+    puts sources[3].country # gets country of fourth source
+```
 
 Seems like this is all. Have fun!
 
@@ -72,6 +112,11 @@ Seems like this is all. Have fun!
 5. Create a new Pull Request
 
 ## Changelog
+
+### 1.1.0
+- changed way of entering API key from class property to initialization
+- added a lot more docs
+- I need sleep
 
 ### 1.0.0:
 - renamed #top_headlines to #get_top_headlines
