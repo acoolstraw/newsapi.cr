@@ -1,6 +1,6 @@
 # newsapi.cr
 
-NewsAPI in Crystal. If you need help, don't hesitate to join the unofficial Crystal Discord server https://discord.gg/YS7YvQy
+NewsAPI in Crystal
 
 ## Installation
 
@@ -9,45 +9,59 @@ NewsAPI in Crystal. If you need help, don't hesitate to join the unofficial Crys
    ```yaml
    dependencies:
      newsapi:
-       github: acoolstraw/newsapi.cr
+       github: acoolstraw/newsapi-crystal
    ```
 
 2. Run `shards install`
 
 ## Usage
 
-Let's make an example program that gets the top headlines about politics in the US. It also prints out the title of the 3rd article.
+Let's go over the shard's functions:
 
 First, you need to have an API key from https://newsapi.org/
-Once you get one, you need to require the library in your .cr file
+Once you get one, you need to require the shard in your .cr file (after installing the shard, of course)
 ```cr
 require "newsapi"
 ```
-Then, you need to enter your API key
+Then, you need to type this and enter your API key
 ```cr
-News.key = "[your API key here]"
+News.key = "your API key here"
 ```
-Then, you need to use the `#top_headlines` method
+And you're done! Now you can do whatever is possible with NewsAPI!
+### #get_top_headlines
 ```cr
-news = News.top_headlines(category: "politics", country: "us")
+# Looks for top headlines containing "bitcoin" in the US
+News.get_top_headlines(q: "bitcoin", country: "us")
+# Looks for top headlines from BBC and New Scientist. Page 2 of the results
+News.get_top_headlines(sources: "bbc-news, new-scientist", page: 2)
+# Gets top headlines in the category business, amount of results (in request) is 100.
+News.get_top_headlines(category: "business", page_size: 100)
 ```
-Finally, you print the title of the 3rd article by making sure `news` isn't nil and then printing it.
-```cr
-if news
-    puts news.articles[2].title  
-end
-```
-Overall, your code should look something like this
-```cr
-require "newsapi"
+You cannot mix `sources` with `country` or `category`. All parameters are presented in the above example. Additional information about this method is available at <https://newsapi.org/docs/endpoints/top-headlines>.
 
-News.key = "[your API key here]"
-news = News.top_headlines(category: "politics", country: "us")
-if news
-    puts news.articles[2].title
-end
+### #get_everything
+```cr
+# Gets everything, must contain "colorado" in title and everywhere else
+News.get_everything(q: "colorado", q_in_title: "colorado")
+# Gets everything from TechCrunch and Engadget, sorts by relevancy
+News.get_everything(sources: "techcrunch, engadget", sort_by: "relevancy")
+# Gets everything from cnn.com from 2020-01-05 to 2020-01-10 (date must be in ISO 8601 format)
+News.get_everything(domains: "cnn.com", from: "2020-01-05", to: "2020-01-10")
+# Gets everything not from bloomberg.com in English with page size 40 and on page 2
+News.get_everything(exclude_domains: "bloomberg.com", language: "en", pageSize: 40, page: 2)
 ```
-View the documentation for in-depth explanations.
+Same things apply to this method as do to #get_top_headlines. Additional information about this method is available at <https://newsapi.org/docs/endpoints/everything>
+
+### #get_sources
+```cr
+# Gets English news sources in the business category
+News.get_sources(category: "business", language: "en")
+# Gets all sources from Russia
+News.get_sources(country: "ru")
+```
+Additional information about this method is available at <https://newsapi.org/docs/endpoints/sources>
+
+Seems like this is all. Have fun!
 
 ## Contributing
 
@@ -56,6 +70,16 @@ View the documentation for in-depth explanations.
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
+
+## Changelog
+
+### 1.0.0:
+- renamed #top_headlines to #get_top_headlines
+- added #get_sources
+- added error messages
+- added `page` parameter support in #get_top_headlines and #get_everything
+- covered all NewsAPI endpoints
+- made small adjustments
 
 ## Contributors
 
