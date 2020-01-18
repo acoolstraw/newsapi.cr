@@ -50,9 +50,10 @@ end
 class News
     VERSION = "v2"
     BASE_URL = "https://newsapi.org/" + VERSION + "/"
-    class_property key : String? = nil
-    def self.get_top_headlines(q = nil, country = nil, category = nil, sources = nil, page_size = nil, page = nil)
-        api_key = @@key
+    def initialize(@key : String)
+    end
+    def get_top_headlines(q = nil, country = nil, category = nil, sources = nil, page_size = nil, page = nil)
+        api_key = @key
         top_headlines_url = BASE_URL + "top-headlines?"
         params = HTTP::Params.build do |form|
             form.add("q", q) if q
@@ -64,7 +65,7 @@ class News
         end
         top_headlines_url += params
         if api_key
-            response = HTTP::Client.get(top_headlines_url, headers: HTTP::Headers{"X-Api-Key" => api_key})
+            response = HTTP::Client.get(top_headlines_url, headers: HTTP::Headers{"X-Api-Key" => api_key.not_nil!})
             content = NewsJSON.from_json(response.body)
             if content.status
                 unless content.status == "ok"
@@ -75,8 +76,8 @@ class News
             end
         end
     end
-    def self.get_everything(q = nil, q_in_title = nil, sources = nil, domains = nil, exclude_domains = nil, from = nil, to = nil, language = nil, sort_by = nil, page_size = nil, page = nil)
-        api_key = @@key
+    def get_everything(q = nil, q_in_title = nil, sources = nil, domains = nil, exclude_domains = nil, from = nil, to = nil, language = nil, sort_by = nil, page_size = nil, page = nil)
+        api_key = @key
         get_everything_url = BASE_URL + "everything?"
         params = HTTP::Params.build do |form|
             form.add("q", q) if q
@@ -104,8 +105,8 @@ class News
             end
         end
     end
-    def self.get_sources(category = nil, language = nil, country = nil)
-        api_key = @@key
+    def get_sources(category = nil, language = nil, country = nil)
+        api_key = @key
         get_sources_url = BASE_URL + "sources?"
         params = HTTP::Params.build do |form|
             form.add("category", category) if category
@@ -125,4 +126,10 @@ class News
             end
         end
     end
+end
+
+news = News.new "5fe2361547c346f8ad0f01d00271a309"
+news_1 = news.get_top_headlines(q: "trump")
+if sources = news_1.try(&.articles)
+    puts articles[2].title
 end
