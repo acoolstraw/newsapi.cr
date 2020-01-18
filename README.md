@@ -113,7 +113,7 @@ Seems like this is all. Have fun!
 
 ## Changelog
 
-### 1.1.0
+### 1.1.0:
 - changed way of entering API key from class property to initialization
 - added a lot more docs
 - I need sleep
