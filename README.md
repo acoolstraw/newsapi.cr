@@ -59,7 +59,7 @@ News.get_sources(category: "business", language: "en")
 # Gets all sources from Russia
 News.get_sources(country: "ru")
 ```
-Additional information about this method is available at <https://newsapi.org/docs/endpoints/sources>
+All parameters are presented in the above example. Additional information about this method is available at <https://newsapi.org/docs/endpoints/sources>
 
 Seems like this is all. Have fun!
 
