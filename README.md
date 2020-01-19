@@ -25,7 +25,7 @@ require "newsapi"
 ```
 Then, you need to initialize a News class
 ```cr
-news = News.k
+news = News.new("YOUR-API-KEY-HERE")
 ```
 And you're done! Now you can do whatever is possible with NewsAPI!
 ### #get_top_headlines
