@@ -80,7 +80,8 @@ For #get_top_headlines and #get_everything
 ```cr
     puts status # gets status, can be either ok or error, the latter would ideally print an error message in the console
     puts totalResults # gets number of total results
-    puts articles[1].source # gets source of second article in results
+    puts articles[1].source.id # gets source ID of second article in results
+    puts articles[1].source.name # gets source name of second article in results
     puts articles[5].author # gets name of author of sixth article
     puts articles[0].title # gets title of first article
     puts articles[4].description # gets description of fifthth article
