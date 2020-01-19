@@ -23,9 +23,9 @@ Once you get one, you need to require the shard in your .cr file (after installi
 ```cr
 require "newsapi"
 ```
-Then, you need to initialize a News class
+Then, you need to initialize a News class (init_var can be whatever you want)
 ```cr
-news = News.new("YOUR-API-KEY-HERE")
+init_var = News.new("YOUR-API-KEY-HERE")
 ```
 And you're done! Now you can do whatever is possible with NewsAPI!
 ### #get_top_headlines
@@ -65,13 +65,13 @@ All parameters are presented in the above example. Additional information about 
 Since Crystal is a type-safe language, you'll need to do this before interacting with the output
 For #get_top_headlines and #get_everything:
 ```cr
-if articles = variable_name.try(&.articles) # variable_name being whatever variable you assigned the method to
+if articles = init_var.try(&.articles)
     # your code ...
 end
 ```
 For #get_sources
 ```cr
-if sources = variable_name.try(&.sources)
+if sources = init_var.try(&.sources)
     # your code ...
 end
 ```
