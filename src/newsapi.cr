@@ -127,9 +127,3 @@ class News
         end
     end
 end
-
-news = News.new "5fe2361547c346f8ad0f01d00271a309"
-news_1 = news.get_top_headlines(q: "trump")
-if sources = news_1.try(&.articles)
-    puts articles[2].title
-end
