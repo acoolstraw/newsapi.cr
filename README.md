@@ -1,4 +1,4 @@
-# newsapi.cr
+# newsapi.cr [ABANDONED]
 
 NewsAPI in Crystal
 
